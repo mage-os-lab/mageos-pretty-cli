@@ -34,6 +34,13 @@ $application->register('test:progress')->setCode(
         $output->writeln('<info>finished.</info>');
 
     }
+
+);
+$application->register('test:emoji')->setCode(
+    function($input, $output) {
+        $output->writeln('<info>👍</info>');
+    }
+
 );
 
 $application->run();
