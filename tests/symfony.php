@@ -5,6 +5,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Helper\Helper;
 use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Helper\ProgressIndicator;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
@@ -63,6 +64,62 @@ $application->register('test:progress:style')->setCode(
         }
         $io->progressFinish();
 
+        $output->writeln("");
+        $output->writeln('<info>finished.</info>');
+    }
+);
+
+$application->register('test:progress:indicator')->setCode(
+    function($input, $output) {
+
+        $output->writeln('<info>line 1</info>');
+        $output->writeln('<info>line 2</info>');
+        $output->writeln('<info>line 3</info>');
+
+        $debug = $output->section();
+        $section1 = $output->section();
+        $section2 = $output->section();
+        $section3 = $output->section();
+
+        $blue = "\033[34m";
+        $reset = "\033[0m";
+        $spinner = array_map(fn ($c) => "$blue$c$reset", [
+            '⠏', '⠛', '⠹', '⢸', '⣰', '⣤', '⣆', '⡇'
+        ]);
+
+
+        $progressIndicator = new ProgressIndicator($section1, 'verbose', 100, $spinner);
+        $p2 = new ProgressIndicator($section2, 'verbose', 100, $spinner);
+        $p3 = new ProgressIndicator($section3, 'verbose', 100, $spinner);
+
+        // starts and displays the progress indicator with a custom message
+        $progressIndicator->start('Processing...');
+        $p2->start('Processing also...');
+        $p3->start('Processing #3...');
+
+        $i = 0;
+        while ($i++ < 10) {
+            // ... do some work
+            usleep(500_000);
+            $debug->writeln('iteration');
+
+            $p3->advance();
+            if ($i % 2 === 0) {
+                $p2->advance();
+            }
+            if ($i < 30) {
+                $progressIndicator->advance();
+            }
+            if ($i === 30) {
+                $progressIndicator->finish('Finished');
+            }
+                
+        }
+
+        // ensures that the progress indicator shows a final message
+        $p2->finish('Also finished');
+        $p3->finish('Also finished');
+        
         $output->writeln("");
         $output->writeln('<info>finished.</info>');
     }
