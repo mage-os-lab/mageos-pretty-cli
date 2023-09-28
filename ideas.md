@@ -14,8 +14,7 @@ Improve Magento CLI Ouput Project at Firegento Hackathon Cologne-2023.
 
 ## Tasks that could be improved
 
-|-----------------------------------------------------|------------------------------------------------------------------|
-| Command                                             |                                                                  |
+| Command                                             | Possible Improvement                                             |
 |-----------------------------------------------------|------------------------------------------------------------------|
 | admin:adobe-ims:disable                             |                                                                  |
 | admin:adobe-ims:enable                              |                                                                  |
