@@ -129,5 +129,7 @@ Improve Magento CLI Ouput Project at Firegento Hackathon Cologne-2023.
 * https://symfony.com/doc/current/components/console/helpers/progressbar.html
 * https://magecomp.com/blog/add-progress-bar-using-custom-cli-command-magento-2/
 * https://symfony.com/doc/current/components/console/helpers/progressindicator.html
-
+* https://stackoverflow.com/questions/42584932/symfony-progressbar-how-to-recreate-the-bar-displayed-at-the-beginning-of-the-a
+* https://en.wikipedia.org/wiki/Block_Elements
+* https://symfonycasts.com/blog/fun-with-symfonys-console
 
