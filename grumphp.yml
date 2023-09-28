@@ -1,0 +1,8 @@
+grumphp:
+  tasks:
+    composer_normalize: ~
+    phpcs:
+      standard: [ 'PSR12' ]
+      whitelist_patterns:
+        - /^src\/.*/
+    phpstan: ~
