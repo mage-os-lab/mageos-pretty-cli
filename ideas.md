@@ -2,7 +2,7 @@
 
 Improve Magento CLI Ouput Project at Firegento Hackathon Cologne-2023.
 
-## Ideads
+## Ideas
 
 * Progress Bars
 * Animations
