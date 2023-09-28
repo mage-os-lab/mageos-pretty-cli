@@ -31,7 +31,7 @@ Improve Magento CLI Ouput Project at Firegento Hackathon Cologne-2023.
 | cache:enable                                        |                                                                  |
 | cache:flush                                         | Table Output                                                     |
 | cache:status                                        | Table Output                                                     |
-| catalog:images:resize                               |                                                                  |
+| catalog:images:resize                               | Progressbar                                                      |
 | catalog:product:attributes:cleanup                  |                                                                  |
 | cms:wysiwyg:restrict                                |                                                                  |
 | config:sensitive:set                                |                                                                  |
@@ -92,7 +92,7 @@ Improve Magento CLI Ouput Project at Firegento Hackathon Cologne-2023.
 | module:config:status                                |                                                                  |
 | module:disable                                      |                                                                  |
 | module:enable                                       |                                                                  |
-| module:status                                       |                                                                  |
+| module:status                                       | Improve results in with a table                                  |
 | module:uninstall                                    |                                                                  |
 | newrelic:create:deploy-marker                       |                                                                  |
 | queue:consumers:list                                |                                                                  |
