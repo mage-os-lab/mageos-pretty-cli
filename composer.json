@@ -11,5 +11,7 @@
             "MageOS\\PrettyCli\\": "src/"
         }
     },
-    "require": {}
+    "require": {
+        "symfony/console": "^6.3"
+    }
 }
