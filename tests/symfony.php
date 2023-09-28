@@ -113,15 +113,47 @@ $application->register('test:progress:indicator')->setCode(
             if ($i === 30) {
                 $progressIndicator->finish('Finished');
             }
-                
+
         }
 
         // ensures that the progress indicator shows a final message
         $p2->finish('Also finished');
         $p3->finish('Also finished');
-        
+
         $output->writeln("");
         $output->writeln('<info>finished.</info>');
+    }
+);
+$application->register('test:progress:animated')->setCode(
+    function($input, $output) {
+        $maxSteps = 4;
+        $progressBar = new ProgressBar($output, $maxSteps);
+        $progressBar->setFormat('🌑 %percent:2s%% %bar%');
+
+        $progressBar->start();
+
+        for ($i = 0; $i < $maxSteps; $i++) {
+            usleep(1000000); // 50ms
+            switch ($i % 4) {
+                case 0:
+                    $progressBar->setFormat('🌒 %percent:2s%% %bar% %elapsed:6s%');
+                    break;
+                case 1:
+                    $progressBar->setFormat('🌓 %percent:2s%% %bar% %elapsed:6s%');
+                    break;
+                case 2:
+                    $progressBar->setFormat('🌔 %percent:2s%% %bar% %elapsed:6s%');
+                    break;
+                    case 3:
+                    $progressBar->setFormat('🌕 %percent:2s%% %bar% %elapsed:6s%');
+                break;
+            }
+
+            $progressBar->advance();
+        }
+
+        $progressBar->finish();
+        $output->writeln("\nDone!");
     }
 );
 
