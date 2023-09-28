@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Color;
 use Symfony\Component\Console\Helper\Helper;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\ProgressIndicator;
@@ -51,6 +52,21 @@ $application->register('test:emoji')->setCode(
     }
 
 );
+$application->register('test:ansi:class')->setCode(
+    function($input, \Symfony\Component\Console\Output\OutputInterface $output) {
+
+        // using symfony console Color class and taking --no-ansi into account
+        $red = $output->isDecorated() ? new Color('bright-red', 'yellow') : new Color();
+        $output->writeln("Using Console\Color: " . $red->apply('this is bright red on yellow') . ', nice');
+    }
+
+);
+$application->register('test:ansi:tags')->setCode(
+    function($input, \Symfony\Component\Console\Output\OutputInterface $output) {
+        // using symfony console tags which already take --no-ansi into account
+        $output->writeln("Using tags: <fg=bright-red;bg=yellow>this is bright red on yellow</> nice");
+    }
+);
 $application->register('test:progress:style')->setCode(
     function($input, $output) {
         $io = new SymfonyStyle($input, $output);
@@ -70,16 +86,16 @@ $application->register('test:progress:style')->setCode(
 );
 
 $application->register('test:progress:indicator')->setCode(
-    function($input, $output) {
+    function(\Symfony\Component\Console\Input\InputInterface$input, \Symfony\Component\Console\Output\ConsoleOutputInterface $output) {
 
-        $output->writeln('<info>line 1</info>');
-        $output->writeln('<info>line 2</info>');
-        $output->writeln('<info>line 3</info>');
-
-        $debug = $output->section();
+        foreach (range(1,20) as $line) {
+            $output->writeln('<info>line '.$line.'</info>');
+        }
         $section1 = $output->section();
         $section2 = $output->section();
         $section3 = $output->section();
+
+        $section2->writeln('prefix');
 
         $blue = "\033[34m";
         $reset = "\033[0m";
@@ -98,12 +114,18 @@ $application->register('test:progress:indicator')->setCode(
         $p3->start('Processing #3...');
 
         $i = 0;
-        while ($i++ < 10) {
-            // ... do some work
-            usleep(500_000);
-            $debug->writeln('iteration');
+        while ($i++ < 50) {
+//            sleep(1);
+            usleep(100_000);
 
+            // clear section unless bug in ProgressIndicator is fixed
+            $section1->clear();
+            $progressIndicator->advance();
+            $section2->clear();
+            $p2->advance();
+            $section3->clear();
             $p3->advance();
+/*
             if ($i % 2 === 0) {
                 $p2->advance();
             }
@@ -113,10 +135,53 @@ $application->register('test:progress:indicator')->setCode(
             if ($i === 30) {
                 $progressIndicator->finish('Finished');
             }
-
+ */
         }
 
         // ensures that the progress indicator shows a final message
+        $progressIndicator->finish('Also finished');
+        $p2->finish('Also finished');
+        $p3->finish('Also finished');
+
+        $output->writeln("");
+        $output->writeln('<info>finished.</info>');
+    }
+);
+
+$application->register('test:multiprogress:indicator')->setCode(
+    function(\Symfony\Component\Console\Input\InputInterface$input, \Symfony\Component\Console\Output\ConsoleOutputInterface $output) {
+
+        foreach (range(1,20) as $line) {
+            $output->writeln('<info>line '.$line.'</info>');
+        }
+
+        $multi = new \MageOS\PrettyCli\Progress\MultiProgressIndicator($output);
+
+        $blue = "\033[34m";
+        $reset = "\033[0m";
+        $spinner = array_map(fn ($c) => "$blue$c$reset", [
+            '⠏', '⠛', '⠹', '⢸', '⣰', '⣤', '⣆', '⡇'
+        ]);
+
+
+        $p1 = $multi->addProgressIndicator('verbose', 100, $spinner);
+        $p2 = $multi->addProgressIndicator('verbose', 100, $spinner);
+        $p3 = $multi->addProgressIndicator('verbose', 100, $spinner);
+
+        // starts and displays the progress indicator with a custom message
+        $p1->start('Processing...');
+        $p2->start('Processing also...');
+        $p3->start('Processing #3...');
+
+        $i = 0;
+        while ($i++ < 50) {
+            usleep(100_000);
+            $p1->advance();
+            $p2->advance();
+            $p3->advance();
+        }
+
+        $p1->finish('Also finished');
         $p2->finish('Also finished');
         $p3->finish('Also finished');
 
