@@ -267,12 +267,6 @@ $application->register('test:alphabet')->setCode(
         // Run with: ./FontLibrary/LetterGenerator.php test:alphabet
         $input = 'Hackathon Yee';
         $letterSpacing = 1;
-        $foregroundColor = '#ffff00';
-        $options = ['bold'];
-
-        // Style Output
-        $outputStyle = new OutputFormatterStyle($foregroundColor, options: $options);
-        $output->getFormatter()->setStyle('fire', $outputStyle);
 
         $upperCase = strtoupper($input);
         $inputStringArray = str_split($upperCase);
