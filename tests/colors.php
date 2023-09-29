@@ -36,6 +36,43 @@ $application->register('test:ansi:simple')->setCode(
         $output->writeln("STYLO: " . $warningStyle->apply('this is bright red on yellow') . ', nice');
     }
 );
+$application->register('test:ansi:alternating')->setCode(
+    code: function($input, \Symfony\Component\Console\Output\OutputInterface $output) {
+        $redAlternating = (new AnsiStyle)->alternatingBg(BaseColor::BRIGHT_RED, BaseColor::RED);
+        $output->writeln($redAlternating->apply('First Line'));
+        $output->writeln($redAlternating->apply('Second Line '));
+        $output->writeln($redAlternating->apply('Hellooooooooooooooooooooooooooo'));
+        $output->writeln($redAlternating->apply('Last Line'));
+        $blueAlternatingFg = (new AnsiStyle)->alternatingFg(
+            BaseColor::BLUE,
+            BaseColor::BRIGHT_BLUE,
+            BaseColor::CYAN,
+            BaseColor::BRIGHT_CYAN
+        );
+        $output->write($blueAlternatingFg->apply('I\'m '));
+        $output->write($blueAlternatingFg->apply('blue '));
+        $output->write($blueAlternatingFg->apply('dabadee '));
+        $output->write($blueAlternatingFg->apply('dabadi '));
+        $output->write($blueAlternatingFg->apply('dabadee '));
+        $output->write($blueAlternatingFg->apply('dabadi '));
+        $output->write($blueAlternatingFg->apply('dabadee '));
+        $output->write($blueAlternatingFg->apply('dabadoo!'));
+        $output->writeln('');
+
+        $mixedAlternating = (new AnsiStyle)
+            ->alternatingFg(BaseColor::BLUE, BaseColor::RED)
+            ->alternatingBg(BaseColor::BRIGHT_WHITE, BaseColor::WHITE, BaseColor::GRAY, BaseColor::BLACK, BaseColor::GRAY, BaseColor::WHITE);
+        foreach (range(1,10) as $i) {
+            $output->writeln($mixedAlternating->apply('Line '. $i));
+        }
+    }
+);
+$application->register('test:ansi:gradient')->setCode(
+    code: function($input, \Symfony\Component\Console\Output\OutputInterface $output) {
+        $blackToWhite = (new AnsiStyle)->bgGradient(new HexColor('#000'), new HexColor('#fff'));
+        $output->writeln($blackToWhite->apply('Hellooooooooooooooooooooooooooo'));
+    }
+);
 $application->register('test:ansi:sandbox')->setCode(
     code: function($input, \Symfony\Component\Console\Output\OutputInterface $output) {
         /*

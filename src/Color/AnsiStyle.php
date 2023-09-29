@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace MageOS\PrettyCli\Color;
 
-class AnsiStyle
+class AnsiStyle implements AnsiStyleInterface
 {
     public function __construct(
         private ?ColorInterface $foreground = null,
@@ -37,7 +37,7 @@ class AnsiStyle
         if ($this->background) {
             $tagParts[]='bg='.$this->background->toColorString();
         }
-        //TODO apply options (bold etc)
+        //TODO define and apply options (bold etc)
         if (!empty($tagParts)) {
             $tag = implode(';', $tagParts);
             return "<$tag>$string</>";
@@ -53,6 +53,23 @@ class AnsiStyle
     public function fgHex(string $string): self
     {
         return $this->foreground(new HexColor($string));
+    }
+
+    //TODO generate shortcuts for all basic colors, e.g.
+    //public function bgBrightBlue(): self
+    public function bgGradient(ColorInterface $from, ColorInterface ...$to): self
+    {
+
+    }
+
+    public function alternatingBg(ColorInterface ...$colors)
+    {
+        return $this->background(new AlternatingColor(...$colors));
+    }
+
+    public function alternatingFg(ColorInterface ...$colors)
+    {
+        return $this->foreground(new AlternatingColor(...$colors));
     }
 
 }

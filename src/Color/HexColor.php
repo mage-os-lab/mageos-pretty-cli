@@ -11,7 +11,7 @@ class HexColor implements ColorInterface
         string $hexString
     )
     {
-        //TODO validate format #xxxxxx
+        //TODO validate format #xxxxxx or #xxx
         $this->hexString = $hexString;
     }
 
