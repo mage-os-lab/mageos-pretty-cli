@@ -10,7 +10,6 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
-use Symfony\Component\Console\Output\ConsoleOutput;
 
 /**
  * Bitte vergebt uns unsere Schuld, wie auch wir wissen, dass eine Gotte-Klasse keine gute Idee ist.
@@ -419,7 +418,7 @@ CHAR,
 
 ██████████╗
 ╚═════════╝
-CHAR,"/" => <<<CHAR
+CHAR, "/" => <<<CHAR
     ██╗
    ██╔╝
   ██╔╝
