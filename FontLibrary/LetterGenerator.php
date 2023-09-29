@@ -705,6 +705,7 @@ $application->register('test:alphabet:animate:color')->setCode(
                         $currentChar = $inputStringArray[$LOCAL_X];
                         if (array_key_exists($currentChar, $lettersArray)) {
                             $lineOutput .= $lettersArray[$currentChar][$LOCAL_Y];
+                            $lineOutput .= str_repeat(' ', LETTER_SPACING);
                         }
 
                         // Add gap for whitespace
