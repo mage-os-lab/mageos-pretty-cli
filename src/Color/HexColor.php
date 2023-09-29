@@ -25,4 +25,22 @@ class HexColor implements ColorInterface
         return $this->hexString;
     }
 
+    public static function fromRgb(int $red, int $green, int $blue)
+    {
+        return new self(sprintf("#%02x%02x%02x", $red, $green, $blue));
+
+    }
+
+    /**
+     * @return array<int> Red, Green and Blue values
+     */
+    public function toRgb(): array {
+        $hex = ltrim($this->toColorString(), '#');
+        if (strlen($hex) === 3) {
+            $hex = $hex[0].$hex[0].$hex[1].$hex[1].$hex[2].$hex[2];
+        }
+        sscanf($hex, "%02x%02x%02x", $r, $g, $b);
+        return [$r, $g, $b];
+    }
+
 }

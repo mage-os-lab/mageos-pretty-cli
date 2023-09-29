@@ -23,4 +23,12 @@ class AlternatingColor implements ColorInterface
         return $result;
     }
 
+    public function toRgb(): array
+    {
+        $result = current($this->colors)->toRgb();
+        next($this->colors) || reset($this->colors);
+
+        return $result;
+    }
+
 }
