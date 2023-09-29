@@ -468,7 +468,7 @@ CHAR,
 CHAR
 ];
 
-const INPUT = 'Sub 2 Finn R.';
+const INPUT = 'I hack u a ton';
 
 const RAINBOW = [
     "#FF0000", // Red
@@ -714,7 +714,7 @@ $application->register('test:alphabet:animate:color')->setCode(
                     }
 
                     $sectionAnimate->writeln('<fire>' . $lineOutput . '<fire>');
-                    usleep(ANIMATION_SPEED*10);
+                    usleep(ANIMATION_SPEED);
                 }
             }
         }
