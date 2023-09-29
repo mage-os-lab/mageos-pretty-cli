@@ -72,4 +72,24 @@ class AnsiStyle implements AnsiStyleInterface
         return $this->foreground(new AlternatingColor(...$colors));
     }
 
+    /**
+     * @param array<string> $strings
+     * @return array<string>
+     */
+    public function applyAll(array $strings): array
+    {
+        return \array_map(
+            fn(string $s) => $this->apply($s),
+            $strings
+        );
+    }
+
+    /**
+     * @param array<string> $strings
+     * @return string
+     */
+    public function applyAllFlat(array $strings): string
+    {
+        return implode('', $this->applyAll($strings));
+    }
 }

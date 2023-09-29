@@ -49,15 +49,7 @@ $application->register('test:ansi:alternating')->setCode(
             BaseColor::CYAN,
             BaseColor::BRIGHT_CYAN
         );
-        $output->write($blueAlternatingFg->apply('I\'m '));
-        $output->write($blueAlternatingFg->apply('blue '));
-        $output->write($blueAlternatingFg->apply('dabadee '));
-        $output->write($blueAlternatingFg->apply('dabadi '));
-        $output->write($blueAlternatingFg->apply('dabadee '));
-        $output->write($blueAlternatingFg->apply('dabadi '));
-        $output->write($blueAlternatingFg->apply('dabadee '));
-        $output->write($blueAlternatingFg->apply('dabadoo!'));
-        $output->writeln('');
+        $output->writeln($blueAlternatingFg->applyAllFlat(["I'm ", 'blue ', 'dabba', 'dee', 'dabba', 'di', 'dabba', 'dee']));
 
         $mixedAlternating = (new AnsiStyle)
             ->alternatingFg(BaseColor::BLUE, BaseColor::RED)

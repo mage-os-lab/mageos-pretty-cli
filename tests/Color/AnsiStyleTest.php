@@ -74,4 +74,10 @@ class AnsiStyleTest extends TestCase
         $this->assertEquals('<fg=red;bg=white>6. Line</>', $style->apply('6. Line'));
         $this->assertEquals('<fg=bright-red;bg=bright-white>7. Line</>', $style->apply('7. Line'));
     }
+
+    public function testApplyFlat()
+    {
+        $style = (new AnsiStyle)->alternatingBg(BaseColor::RED, BaseColor::GREEN);
+        $this->assertEquals('<bg=red>RED</><bg=green>GREEN</>', $style->applyAllFlat(['RED', 'GREEN']));
+    }
 }
