@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace MageOS\PrettyCli\Color;
 
+//TODO this should not implement the ColorInterface, methods are not even implemented and we have "instanceof" checks in AnsiStyle
 class ColorGradient implements ColorInterface
 {
     /**
@@ -14,7 +15,11 @@ class ColorGradient implements ColorInterface
         $this->colors = [$from, ...$to];
     }
 
-    public function getColors(int $steps): iterable
+    /**
+     * @param int $steps
+     * @return array<ColorInterface>
+     */
+    public function getColors(int $steps): array
     {
         $stepsPerColor = (int)ceil($steps / (count($this->colors) - 1));
         $remainingSteps = $steps;

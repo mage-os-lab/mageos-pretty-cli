@@ -143,4 +143,26 @@ class ColorGradientTest extends TestCase
             'gradient should repeat'
         );
     }
+    public function testGradientFgVerticalWithMultilineString()
+    {
+        $blueToWhite = (new AnsiStyle())->fgVerticalGradient(4, new HexColor('#00f'), new HexColor('#fff'));
+        $this->assertEquals(
+            '<fg=#0000ff>1</>',
+            $blueToWhite->apply('1')
+        );
+        $this->assertEquals(
+            "<fg=#5555ff>two</>\n".
+            '<fg=#aaaaff>lines</>',
+            $blueToWhite->apply("two\nlines")
+        );
+        $this->assertEquals(
+            '<fg=#ffffff>4</>',
+            $blueToWhite->apply('4')
+        );
+        $this->assertEquals(
+            '<fg=#0000ff>5</>',
+            $blueToWhite->apply('5'),
+            'gradient should repeat'
+        );
+    }
 }

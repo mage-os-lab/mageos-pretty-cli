@@ -30,6 +30,10 @@ class AnsiStyle implements AnsiStyleInterface
 
     public function apply(string $string): string
     {
+        //TODO add option to NOT treat strings line by line (but it should be the default)
+        if (str_contains($string, "\n")) {
+            return implode("\n", $this->applyAll(explode("\n", $string)));
+        }
         //TODO extract to style application strategy, use iterator if styling per character is required
         if ($this->isStyledPerCharacter()) {
             $characters = mb_str_split($string);
