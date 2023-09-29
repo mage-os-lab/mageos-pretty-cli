@@ -12,7 +12,17 @@ class ColorGradient implements ColorInterface
     private array $colors = [];
     public function __construct(ColorInterface $from, ColorInterface ...$to)
     {
+        if ($from instanceof ColorGradient) {
+            $this->colors = $from->colors;
+            return;
+        }
         $this->colors = [$from, ...$to];
+    }
+
+    public static function presets(): ColorGradientPresets
+    {
+        //TODO with Magento, this could easily be made extensible
+        return new ColorGradientPresets();
     }
 
     /**
@@ -39,7 +49,6 @@ class ColorGradient implements ColorInterface
         }
         return $gradient;
     }
-
     // . . . . . . . . . . . .
     // R         G        (B)B
 
@@ -60,6 +69,9 @@ class ColorGradient implements ColorInterface
      * @return array<ColorInterface>
      */
     private static function generateGradient($colorA, $colorB, $steps): array {
+        if ($steps === 1) {
+            return [HexColor::fromRgb(...$colorB)];
+        }
         $gradient = [];
         for ($i = 0; $i < $steps; $i++) {
             $r = $colorA[0] + $i * ($colorB[0] - $colorA[0]) / ($steps - 1);

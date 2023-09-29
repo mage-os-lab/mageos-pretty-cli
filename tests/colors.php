@@ -4,6 +4,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use MageOS\PrettyCli\Color\AnsiStyle;
 use MageOS\PrettyCli\Color\BaseColor;
+use MageOS\PrettyCli\Color\ColorGradient;
 use MageOS\PrettyCli\Color\HexColor;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Color;
@@ -145,21 +146,9 @@ $application->register('test:ansi:gradient:vertical')->setCode(
 );
 $application->register('test:ansi:gradient:rainbow')->setCode(
     code: function ($input, \Symfony\Component\Console\Output\OutputInterface $output) {
-        $rainbow = (new AnsiStyle)->fgGradient(
-            BaseColor::RED,
-            BaseColor::YELLOW,
-            BaseColor::GREEN,
-            BaseColor::CYAN,
-            BaseColor::BLUE,
-            BaseColor::MAGENTA
-        )->bgGradient(
-            BaseColor::BRIGHT_RED,
-            BaseColor::BRIGHT_YELLOW,
-            BaseColor::BRIGHT_GREEN,
-            BaseColor::BRIGHT_CYAN,
-            BaseColor::BRIGHT_BLUE,
-            BaseColor::BRIGHT_MAGENTA
-        );
+        $rainbow = (new AnsiStyle)
+            ->foreground(ColorGradient::presets()->rainbow())
+            ->background(ColorGradient::presets()->rainbowBright());
         $output->writeln((new AnsiStyle(background: HexColor::fromRgb(...BaseColor::BRIGHT_MAGENTA->toRgb())))->apply('Hellooooooooooooooooooooooooooooooooooooooooo'));
         $output->writeln($rainbow->apply('Hellooooooooooooooooooooooooooooooooooooooooo'));
         $output->writeln($rainbow->apply('Helloooooooooooooooooooooooooooooooooooooooooo'));
@@ -169,6 +158,36 @@ $application->register('test:ansi:gradient:rainbow')->setCode(
         $output->writeln($rainbow->apply('Helloooooooooooooooooooooooooooooooooooooooooooooo'));
         $output->writeln($rainbow->apply('Hellooooooooooooooooooooooooooooooooooooooooooooooo'));
         $output->writeln((new AnsiStyle(background: HexColor::fromRgb(...BaseColor::BRIGHT_MAGENTA->toRgb())))->apply('Hellooooooooooooooooooooooooooooooooooooooooooooooo'));
+    }
+);
+$application->register('test:ansi:gradient:vertical-rainbow-preset')->setCode(
+    code: function ($input, \Symfony\Component\Console\Output\OutputInterface $output) {
+        $rainbow = (new AnsiStyle)
+            ->fgVerticalGradient(10, ColorGradient::presets()->rainbowRgb());
+        $output->writeln($rainbow->apply('█████████████████████████████████████████████████'));
+        $output->writeln($rainbow->apply('█████████████████████████████████████████████████'));
+        $output->writeln($rainbow->apply('█████████████████████████████████████████████████'));
+        $output->writeln($rainbow->apply('█████████████████████████████████████████████████'));
+        $output->writeln($rainbow->apply('█████████████████████████████████████████████████'));
+        $output->writeln($rainbow->apply('█████████████████████████████████████████████████'));
+        $output->writeln($rainbow->apply('█████████████████████████████████████████████████'));
+        $output->writeln($rainbow->apply('█████████████████████████████████████████████████'));
+        $output->writeln($rainbow->apply('█████████████████████████████████████████████████'));
+        $output->writeln($rainbow->apply('█████████████████████████████████████████████████'));
+        $output->writeln($rainbow->apply('█████████████████████████████████████████████████'));
+        $output->writeln($rainbow->apply('█████████████████████████████████████████████████'));
+        $output->writeln($rainbow->apply('█████████████████████████████████████████████████'));
+        $output->writeln($rainbow->apply('█████████████████████████████████████████████████'));
+        $output->writeln($rainbow->apply('█████████████████████████████████████████████████'));
+        $output->writeln($rainbow->apply('█████████████████████████████████████████████████'));
+        $output->writeln($rainbow->apply('█████████████████████████████████████████████████'));
+        $output->writeln($rainbow->apply('█████████████████████████████████████████████████'));
+        $output->writeln($rainbow->apply('█████████████████████████████████████████████████'));
+        $output->writeln($rainbow->apply('█████████████████████████████████████████████████'));
+        $output->writeln($rainbow->apply('█████████████████████████████████████████████████'));
+        $output->writeln($rainbow->apply('█████████████████████████████████████████████████'));
+        $output->writeln($rainbow->apply('█████████████████████████████████████████████████'));
+        $output->writeln($rainbow->apply('█████████████████████████████████████████████████'));
     }
 );
 $application->register('test:ansi:sandbox')->setCode(

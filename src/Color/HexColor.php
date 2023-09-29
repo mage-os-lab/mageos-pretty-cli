@@ -28,7 +28,6 @@ class HexColor implements ColorInterface
     public static function fromRgb(int $red, int $green, int $blue)
     {
         return new self(sprintf("#%02x%02x%02x", $red, $green, $blue));
-
     }
 
     /**
