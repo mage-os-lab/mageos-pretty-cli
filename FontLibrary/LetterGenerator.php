@@ -256,7 +256,213 @@ CHAR,
 ███████╗
 ╚══════╝
 CHAR,
-    " " => " ",
+    "1" => <<<CHAR
+
+  ███╗
+ ████║
+██╔██║
+╚═╝██║
+███████╗
+╚══════╝
+CHAR,
+
+    "2" => <<<CHAR
+██████╗
+╚════██╗
+  ███╔═╝
+██╔══╝
+███████╗
+╚══════╝
+CHAR,
+
+    "3" => <<<CHAR
+██████╗
+╚════██╗
+ █████╔╝
+ ╚═══██╗
+██████╔╝
+╚═════╝
+CHAR,
+
+    "4" => <<<CHAR
+  ██╗██╗
+ ██╔╝██║
+██╔╝ ██║
+███████║
+╚════██║
+     ╚═╝
+CHAR,
+    "5" => <<<CHAR
+███████╗
+██╔════╝
+██████╗
+╚════██╗
+██████╔╝
+╚═════╝
+CHAR,
+    "6" => <<<CHAR
+ █████╗
+██╔═══╝
+██████╗
+██╔══██╗
+╚█████╔╝
+ ╚════╝
+CHAR,
+    "7" => <<<CHAR
+███████╗
+╚════██║
+    ██╔╝
+   ██╔╝
+  ██╔╝
+  ╚═╝
+CHAR,
+    "8" => <<<CHAR
+ █████╗
+██╔══██╗
+╚█████╔╝
+██╔══██╗
+╚█████╔╝
+ ╚════╝
+CHAR,
+    "9" => <<<CHAR
+ █████╗
+██╔══██╗
+╚██████║
+ ╚═══██║
+ █████╔╝
+ ╚════╝
+CHAR,
+    "?" => <<<CHAR
+ █████╗
+██╔══██╗
+╚═╝███╔╝
+   ╚══╝
+   ██╗
+   ╚═╝
+CHAR,
+    "!" => <<<CHAR
+██╗
+██║
+██║
+╚═╝
+██╗
+╚═╝
+CHAR,
+    "." => <<<CHAR
+
+
+
+
+
+██╗
+╚═╝
+CHAR,
+    "," => <<<CHAR
+
+
+
+██╗
+╚█║
+ ╚╝
+CHAR,
+    "<" => <<<CHAR
+  ██╗
+ ██╔╝
+██╔╝
+╚██╗
+ ╚██╗
+  ╚═╝
+CHAR,
+    ">" => <<<CHAR
+██╗
+╚██╗
+ ╚██╗
+ ██╔╝
+██╔╝
+╚═╝
+CHAR,
+    "=" => <<<CHAR
+
+██████╗
+╚═════╝
+██████╗
+╚═════╝
+
+CHAR,
+    "+" => <<<CHAR
+
+  ██╗
+██████╗
+╚═██╔═╝
+  ╚═╝
+
+CHAR,
+    "-" => <<<CHAR
+
+
+█████╗
+╚════╝
+
+
+CHAR,
+    "_" => <<<CHAR
+
+
+
+
+██████████╗
+╚═════════╝
+CHAR,"/" => <<<CHAR
+    ██╗
+   ██╔╝
+  ██╔╝
+ ██╔╝
+██╔╝
+╚═╝
+CHAR,
+    "#" => <<<CHAR
+  ██╗ ██╗
+██████████╗
+╚═██╔═██╔═╝
+██████████╗
+╚██╔═██╔══╝
+ ╚═╝ ╚═╝
+CHAR,
+    ":" => <<<CHAR
+
+██╗
+╚═╝
+
+
+██╗
+╚═╝
+CHAR,
+    "$" => <<<CHAR
+ ███████╗
+██╔██╔══╝
+╚██████╗
+ ╚═██╔██╗
+███████╔╝
+╚══════╝
+CHAR,
+    "[" => <<<CHAR
+████╗
+██╔═╝
+██║
+██║
+████╗
+╚═══╝
+CHAR,
+    "]" => <<<CHAR
+████╗
+╚═██║
+  ██║
+  ██║
+████║
+╚═══╝
+CHAR
+
+
 ];
 
 $application = new Application();
@@ -265,7 +471,7 @@ $application->register('test:alphabet')->setCode(
     function ($input, $output) {
 
         // Run with: ./FontLibrary/LetterGenerator.php test:alphabet
-        $input = 'Hackathon Yee';
+        $input = 'Rangaha = Yes';
         $letterSpacing = 1;
 
         $upperCase = strtoupper($input);
@@ -306,16 +512,21 @@ $application->register('test:alphabet')->setCode(
         for ($i = 0; $i < 6; $i++) {
             $lineOutput = '';
 
-            $outputStyle = new OutputFormatterStyle($rainbowGradient[$i], options: ['bold']);
+            $outputStyle = new OutputFormatterStyle($redGradient[$i], options: ['bold']);
             $output->getFormatter()->setStyle('fire', $outputStyle);
 
             foreach ($inputStringArray as $currentChar) {
                 // Handle whitespaces in a cheap way :D
-                if ($currentChar === ' ') {
-                    $lineOutput .= '   ';
-                } else {
+
+                // Maybe if arrayKeyExists?
+
+                if (array_key_exists($currentChar, $lettersArray)) {
                     $lineOutput .= $lettersArray[$currentChar][$i];
                     $lineOutput .= str_repeat(' ', max($letterSpacing, 1));
+                }
+
+                if ($currentChar === ' ') {
+                    $lineOutput .= '   ';
                 }
             }
             $output->writeln('<fire>' . $lineOutput . '</fire>');
