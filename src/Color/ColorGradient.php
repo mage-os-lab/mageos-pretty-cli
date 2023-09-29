@@ -14,7 +14,7 @@ class ColorGradient implements ColorInterface
         $this->colors = [$from, ...$to];
     }
 
-    public function getColors(int $steps): \Traversable
+    public function getColors(int $steps): iterable
     {
         $stepsPerColor = (int)ceil($steps / (count($this->colors) - 1));
         $remainingSteps = $steps;
@@ -32,7 +32,7 @@ class ColorGradient implements ColorInterface
             );
             $remainingSteps -= $stepsPerColor;
         }
-        return new \ArrayIterator($gradient);
+        return $gradient;
     }
 
     // . . . . . . . . . . . .

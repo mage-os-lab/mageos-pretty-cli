@@ -12,7 +12,7 @@ class AnsiStyle implements AnsiStyleInterface
     {
     }
 
-    public function foreground(ColorInterface $color): self
+    public function foreground(?ColorInterface $color): self
     {
         $style = clone $this;
         $style->foreground = $color;
@@ -20,7 +20,7 @@ class AnsiStyle implements AnsiStyleInterface
         return $style;
     }
 
-    public function background(ColorInterface $color): self
+    public function background(?ColorInterface $color): self
     {
         $style = clone $this;
         $style->background = $color;
@@ -33,17 +33,12 @@ class AnsiStyle implements AnsiStyleInterface
         //TODO extract to style application strategy, use iterator if styling per character is required
         if ($this->isStyledPerCharacter()) {
             $characters = mb_str_split($string);
-            $style = $this;
-            //TODO get rid of getColors and have unified interface => less "instanceof" calls
-            if ($this->background instanceof ColorGradient) {
-                $bgColors = $this->background->getColors(mb_strlen($string));
-                $style = $style->alternatingBg(...$bgColors);
-            }
-            if ($this->foreground instanceof ColorGradient) {
-                $fgColors = $this->foreground->getColors(mb_strlen($string));
-                $style = $style->alternatingFg(...$fgColors);
-            }
-            return $style->applyAllFlat($characters);
+            $bgColors = $this->getBgColorsFor($string);
+            $fgColors = $this->getFgColorsFor($string);
+            return $this
+                ->alternatingBg(...$bgColors)
+                ->alternatingFg(...$fgColors)
+                ->applyAllFlat($characters);
         }
 
         $tagParts = [];
@@ -84,13 +79,33 @@ class AnsiStyle implements AnsiStyleInterface
         return $this->foreground(new ColorGradient($from, ...$to));
     }
 
-    public function alternatingBg(ColorInterface ...$colors)
+    public function bgVerticalGradient(int $height, ColorInterface $from, ColorInterface ...$to)
     {
+        return $this->alternatingBg(
+            ...(new ColorGradient($from, ...$to))->getColors($height)
+        );
+    }
+
+    public function fgVerticalGradient(int $height, ColorInterface $from, ColorInterface ...$to)
+    {
+        return $this->alternatingFg(
+            ...(new ColorGradient($from, ...$to))->getColors($height)
+        );
+    }
+
+    public function alternatingBg(?ColorInterface ...$colors)
+    {
+        if (count($colors) === 1) {
+            return $this->background(...$colors);
+        }
         return $this->background(new AlternatingColor(...$colors));
     }
 
-    public function alternatingFg(ColorInterface ...$colors)
+    public function alternatingFg(?ColorInterface ...$colors)
     {
+        if (count($colors) === 1) {
+            return $this->foreground(...$colors);
+        }
         return $this->foreground(new AlternatingColor(...$colors));
     }
 
@@ -118,5 +133,22 @@ class AnsiStyle implements AnsiStyleInterface
     private function isStyledPerCharacter()
     {
         return $this->foreground instanceof ColorGradient || $this->background instanceof ColorGradient;
+    }
+    private function getBgColorsFor(string $string): array
+    {
+        //TODO get rid of getColors and have unified interface => less "instanceof" calls
+        if ($this->background instanceof ColorGradient) {
+            return $this->background->getColors(mb_strlen($string));
+        }
+        return [$this->background];
+    }
+
+    private function getFgColorsFor(string $string): array
+    {
+        //TODO get rid of getColors and have unified interface => less "instanceof" calls
+        if ($this->foreground instanceof ColorGradient) {
+            return $this->foreground->getColors(mb_strlen($string));
+        }
+        return [$this->foreground];
     }
 }

@@ -135,6 +135,14 @@ $application->register('test:ansi:gradient:bg')->setCode(
         $output->writeln($blueToWhite->apply('Hellooooooooooooooooooooooooooooooooooooooo'));
     }
 );
+$application->register('test:ansi:gradient:vertical')->setCode(
+    code: function ($input, \Symfony\Component\Console\Output\OutputInterface $output) {
+        $blueToWhite = (new AnsiStyle)->fgVerticalGradient(6, BaseColor::BRIGHT_WHITE, BaseColor::BRIGHT_BLUE);
+        for ($i = 0; $i < 6; ++$i) {
+            $output->writeln($blueToWhite->apply(str_repeat('╠╣', 40)));
+        }
+    }
+);
 $application->register('test:ansi:gradient:rainbow')->setCode(
     code: function ($input, \Symfony\Component\Console\Output\OutputInterface $output) {
         $rainbow = (new AnsiStyle)->fgGradient(

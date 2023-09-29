@@ -61,6 +61,18 @@ class AnsiStyleTest extends TestCase
         $this->assertEquals('<fg=red>Second Line</>', $redAlternating->apply('Second Line'));
         $this->assertEquals('<fg=bright-red>Third Line</>', $redAlternating->apply('Third Line'));
     }
+    public function testAlternatingBgSingleColor()
+    {
+        $redAlternating = (new AnsiStyle)->alternatingBg(BaseColor::RED);
+        $this->assertEquals('<bg=red>First Line</>', $redAlternating->apply('First Line'));
+        $this->assertEquals('<bg=red>Second Line</>', $redAlternating->apply('Second Line'));
+    }
+    public function testAlternatingFgSingleColor()
+    {
+        $redAlternating = (new AnsiStyle)->alternatingFg(BaseColor::RED);
+        $this->assertEquals('<fg=red>First Line</>', $redAlternating->apply('First Line'));
+        $this->assertEquals('<fg=red>Second Line</>', $redAlternating->apply('Second Line'));
+    }
     public function testCombineAlternatingFgAndBg()
     {
         $style = (new AnsiStyle)

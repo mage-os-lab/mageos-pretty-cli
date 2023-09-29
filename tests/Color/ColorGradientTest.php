@@ -22,6 +22,18 @@ class ColorGradientTest extends TestCase
             $blueToWhite->apply('1234')
         );
     }
+    public function testGradientBgFixedWidth()
+    {
+        $blueToWhite = (new AnsiStyle())
+            ->bgGradient(new HexColor('#00f'), new HexColor('#fff'));
+        $this->assertEquals(
+            '<bg=#0000ff>1</>'.
+            '<bg=#5555ff>2</>'.
+            '<bg=#aaaaff>3</>'.
+            '<bg=#ffffff>4</>',
+            $blueToWhite->apply('1234')
+        );
+    }
     public function testGradientBgWithMultibyte()
     {
         $blueToWhite = (new AnsiStyle())
@@ -79,6 +91,56 @@ class ColorGradientTest extends TestCase
             '<bg=#2a9400>_</>'.
             '<bg=#00aa00>_</>',
             $blueToWhite->apply('__________')
+        );
+    }
+    public function testGradientBgVertical()
+    {
+        $blueToWhite = (new AnsiStyle())->bgVerticalGradient(4, new HexColor('#00f'), new HexColor('#fff'));
+        $this->assertEquals(
+            '<bg=#0000ff>1</>',
+            $blueToWhite->apply('1')
+        );
+        $this->assertEquals(
+            '<bg=#5555ff>2</>',
+            $blueToWhite->apply('2')
+        );
+        $this->assertEquals(
+            '<bg=#aaaaff>3</>',
+            $blueToWhite->apply('3')
+        );
+        $this->assertEquals(
+            '<bg=#ffffff>4</>',
+            $blueToWhite->apply('4')
+        );
+        $this->assertEquals(
+            '<bg=#0000ff>5</>',
+            $blueToWhite->apply('5'),
+            'gradient should repeat'
+        );
+    }
+    public function testGradientFgVertical()
+    {
+        $blueToWhite = (new AnsiStyle())->fgVerticalGradient(4, new HexColor('#00f'), new HexColor('#fff'));
+        $this->assertEquals(
+            '<fg=#0000ff>1</>',
+            $blueToWhite->apply('1')
+        );
+        $this->assertEquals(
+            '<fg=#5555ff>2</>',
+            $blueToWhite->apply('2')
+        );
+        $this->assertEquals(
+            '<fg=#aaaaff>3</>',
+            $blueToWhite->apply('3')
+        );
+        $this->assertEquals(
+            '<fg=#ffffff>4</>',
+            $blueToWhite->apply('4')
+        );
+        $this->assertEquals(
+            '<fg=#0000ff>5</>',
+            $blueToWhite->apply('5'),
+            'gradient should repeat'
         );
     }
 }
