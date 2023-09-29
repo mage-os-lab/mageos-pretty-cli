@@ -256,8 +256,15 @@ CHAR,
 ███████╗
 ╚══════╝
 CHAR,
+    "0" => <<<CHAR
+ █████╗
+██╔══██╗
+██║  ██║
+██║  ██║
+╚█████╔╝
+ ╚════╝
+CHAR,
     "1" => <<<CHAR
-
   ███╗
  ████║
 ██╔██║
@@ -471,7 +478,7 @@ $application->register('test:alphabet')->setCode(
     function ($input, $output) {
 
         // Run with: ./FontLibrary/LetterGenerator.php test:alphabet
-        $input = 'Rangaha = Yes';
+        $input = 'm463 h4ck47h0n';
         $letterSpacing = 1;
 
         $upperCase = strtoupper($input);
