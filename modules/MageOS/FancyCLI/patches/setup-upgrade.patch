@@ -1,0 +1,41 @@
+diff --git a/Source/setup/src/Magento/Setup/Model/Installer.php b/Source/setup/src/Magento/Setup/Model/Installer.php
+index d1f65cf..386a829 100644
+--- a/Source/setup/src/Magento/Setup/Model/Installer.php
++++ b/Source/setup/src/Magento/Setup/Model/Installer.php
+@@ -514,6 +514,7 @@ class Installer
+         $this->log->logMeta(
+             sprintf(self::PROGRESS_LOG_RENDER, $this->progress->getCurrent(), $this->progress->getTotal())
+         );
++        $this->log->showProgress($this->progress->getCurrent(), $this->progress->getTotal());
+     }
+ 
+     /**
+@@ -967,6 +968,8 @@ class Installer
+         }
+ 
+         $registry->unregister('setup-mode-enabled');
++
++        $this->log->finishProgress();
+     }
+ 
+     /**
+@@ -1040,6 +1043,9 @@ class Installer
+         /** @var PatchApplier $patchApplier */
+         $patchApplier = $this->patchApplierFactory->create($patchApplierParams);
+ 
++        $this->progress = new Installer\Progress(count($moduleNames), 0);
++        $this->log->startProgress();
++
+         foreach ($moduleNames as $moduleName) {
+             if ($this->isDryRun($request)) {
+                 $this->log->log("Module '{$moduleName}':");
+@@ -1105,6 +1111,9 @@ class Installer
+         }
+         $handlerType = $type === 'schema' ? 'schema-recurring' : 'data-recurring';
+ 
++        $this->progress = new Installer\Progress(count($moduleNames), 0);
++        $this->log->startProgress();
++
+         foreach ($moduleNames as $moduleName) {
+             if ($this->isDryRun($request)) {
+                 $this->log->log("Module '{$moduleName}':");
