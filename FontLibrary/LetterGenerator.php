@@ -306,7 +306,7 @@ $application->register('test:alphabet')->setCode(
         for ($i = 0; $i < 6; $i++) {
             $lineOutput = '';
 
-            $outputStyle = new OutputFormatterStyle($rainbowGradient[$i], options: $options);
+            $outputStyle = new OutputFormatterStyle($rainbowGradient[$i], options: ['bold']);
             $output->getFormatter()->setStyle('fire', $outputStyle);
 
             foreach ($inputStringArray as $currentChar) {
